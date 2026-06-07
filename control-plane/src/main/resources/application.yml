@@ -1,0 +1,25 @@
+server:
+  port: 8080
+  address: 127.0.0.1
+
+spring:
+  application:
+    name: vpn-control
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+vpn-control:
+  scripts-dir: ${VPN_SCRIPTS_DIR:/Users/insuchoe/Desktop/vpn-lab/scripts}
+  client-count: 5
+
+logging:
+  level:
+    com.vpnlab: DEBUG
+    org.springframework.web: INFO

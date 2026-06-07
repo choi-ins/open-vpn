@@ -1,0 +1,39 @@
+# ============================================================================
+# vpn-lab-migrated .gitignore
+# ============================================================================
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Gradle / Kotlin / JVM
+**/.gradle/
+**/build/
+**/out/
+*.class
+*.jar
+*.war
+hs_err_pid*
+
+# Node / Vite
+**/node_modules/
+**/dist/
+**/.vite/
+
+# WireGuard 키 (혹시라도)
+**/wg_confs/
+**/privatekey-*
+**/presharedkey-*
+**/publickey-*
+**/*.key
+**/*.pem
+**/wg0.conf
+**/peer[0-9]*.conf
+
+# 환경/로그
+.env
+.env.local
+*.log
+tmp/
