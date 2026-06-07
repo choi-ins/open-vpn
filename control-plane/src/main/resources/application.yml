@@ -25,6 +25,10 @@ vpn-control:
   blocklist:
     hosts-path: ${BLOCKLIST_HOSTS_PATH:/Users/insuchoe/Desktop/vpn-lab/server-data/blocklist/hosts}
     corefile-path: ${BLOCKLIST_COREFILE_PATH:/Users/insuchoe/Desktop/vpn-lab/server-data/coredns/Corefile}
+  disk-control:
+    policy-path: ${DISK_POLICY_PATH:/Users/insuchoe/Desktop/vpn-lab/disk-control/config/policy.json}
+    log-path: ${DISK_LOG_PATH:/Users/insuchoe/Desktop/vpn-lab/disk-control/logs/disk-events.jsonl}
+    process-pattern: ${DISK_PROCESS_PATTERN:disk-control-poc}
 
 logging:
   level:
