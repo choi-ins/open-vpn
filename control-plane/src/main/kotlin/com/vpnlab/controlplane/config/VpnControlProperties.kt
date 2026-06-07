@@ -6,4 +6,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 data class VpnControlProperties(
     val scriptsDir: String,
     val clientCount: Int = 5,
+    val blocklist: BlocklistProperties = BlocklistProperties(),
+)
+
+data class BlocklistProperties(
+    val hostsPath: String = "/Users/insuchoe/Desktop/vpn-lab/server-data/blocklist/hosts",
+    val corefilePath: String = "/Users/insuchoe/Desktop/vpn-lab/server-data/coredns/Corefile",
 )

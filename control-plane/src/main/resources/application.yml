@@ -5,6 +5,10 @@ server:
 spring:
   application:
     name: vpn-control
+  data:
+    mongodb:
+      uri: ${MONGO_URI:mongodb://admin:admin@127.0.0.1:27017/vpnlab?authSource=admin}
+      auto-index-creation: true
 
 management:
   endpoints:
@@ -18,6 +22,9 @@ management:
 vpn-control:
   scripts-dir: ${VPN_SCRIPTS_DIR:/Users/insuchoe/Desktop/vpn-lab/scripts}
   client-count: 5
+  blocklist:
+    hosts-path: ${BLOCKLIST_HOSTS_PATH:/Users/insuchoe/Desktop/vpn-lab/server-data/blocklist/hosts}
+    corefile-path: ${BLOCKLIST_COREFILE_PATH:/Users/insuchoe/Desktop/vpn-lab/server-data/coredns/Corefile}
 
 logging:
   level:
