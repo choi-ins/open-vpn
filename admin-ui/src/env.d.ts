@@ -1,0 +1,15 @@
+/// <reference types="vite/client" />
+
+declare module '*.vue' {
+  import type { DefineComponent } from 'vue'
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const c: DefineComponent<{}, {}, any>
+  export default c
+}
+
+interface ImportMetaEnv {
+  readonly VITE_API_BASE?: string
+}
+interface ImportMeta {
+  readonly env: ImportMetaEnv
+}

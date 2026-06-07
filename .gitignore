@@ -21,6 +21,7 @@ hs_err_pid*
 **/node_modules/
 **/dist/
 **/.vite/
+**/*.tsbuildinfo
 
 # WireGuard 키 (혹시라도)
 **/wg_confs/
