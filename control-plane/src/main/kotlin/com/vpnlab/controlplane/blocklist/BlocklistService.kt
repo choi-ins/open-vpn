@@ -23,6 +23,7 @@ sealed class DeleteResult {
 class BlocklistService(
     private val repo: BlocklistRepository,
     private val fileWriter: BlocklistFileWriter,
+    private val corednsRestarter: CorednsRestarter,
 ) {
     private val log = LoggerFactory.getLogger(BlocklistService::class.java)
 
@@ -53,12 +54,16 @@ class BlocklistService(
     /**
      * 변경된 종류에 따라 hosts 또는 Corefile만 재생성.
      * (원본 Rust도 동일 분기 — wildcard 변경 시 Corefile만, 일반 변경 시 hosts만)
+     *
+     * 일반 도메인: hosts plugin의 `reload 5s`가 자동 픽업 → 재시작 불필요.
+     * 와일드카드: template block은 reload plugin이 반영 못 함 → CoreDNS 컨테이너 재시작.
      */
     private fun regenerateAffectedFile(wasWildcard: Boolean) {
         try {
             if (wasWildcard) {
                 val wildcards = repo.findAllByIsWildcard(true).map { it.domain }
                 fileWriter.writeCorefile(wildcards)
+                corednsRestarter.restartAsync()
             } else {
                 val regulars = repo.findAllByIsWildcard(false).map { it.domain }
                 fileWriter.writeHosts(regulars)

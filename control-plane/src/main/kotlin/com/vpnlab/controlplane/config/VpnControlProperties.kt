@@ -13,6 +13,9 @@ data class VpnControlProperties(
 data class BlocklistProperties(
     val hostsPath: String = "/Users/insuchoe/Desktop/vpn-lab/server-data/blocklist/hosts",
     val corefilePath: String = "/Users/insuchoe/Desktop/vpn-lab/server-data/coredns/Corefile",
+    // 와일드카드 변경 시 CoreDNS 자동 재시작 (원본은 수동 docker restart 우회였음 — 자동화)
+    val autoRestartCoredns: Boolean = true,
+    val corednsContainer: String = "vpn-server",
 )
 
 data class DiskControlProperties(

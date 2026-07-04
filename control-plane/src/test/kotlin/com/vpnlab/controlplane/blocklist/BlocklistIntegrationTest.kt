@@ -46,6 +46,8 @@ class BlocklistIntegrationTest {
             registry.add("spring.data.mongodb.uri") { mongo.replicaSetUrl }
             registry.add("vpn-control.blocklist.hosts-path") { sharedTmp.resolve("hosts").toString() }
             registry.add("vpn-control.blocklist.corefile-path") { sharedTmp.resolve("Corefile").toString() }
+            // 테스트 중 실제 docker restart 발동 금지
+            registry.add("vpn-control.blocklist.auto-restart-coredns") { "false" }
         }
     }
 
