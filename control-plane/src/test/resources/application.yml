@@ -1,0 +1,11 @@
+# 테스트 전용 설정.
+# Testcontainers를 쓰는 통합 테스트는 @DynamicPropertySource로 이 값을 덮어쓴다.
+# Mongo에 실제 연결하지 않는 테스트(Health/Client 등)는 이 더미 URI로 컨텍스트만 로드한다.
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/vpnlab_test
+
+vpn-control:
+  scripts-dir: /tmp/vpnlab-test-scripts
+  client-count: 5

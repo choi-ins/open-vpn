@@ -1,0 +1,64 @@
+[
+  {
+    "name": "com.vpnlab.agent.Policy",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "com.vpnlab.agent.Rules",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "com.vpnlab.agent.UsbRule",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "com.vpnlab.agent.LoggingConfig",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "com.vpnlab.agent.DiskEvent",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "com.vpnlab.agent.Mode",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "fields": [{ "name": "$VALUES" }],
+    "methods": [{ "name": "values", "parameterTypes": [] }]
+  },
+  {
+    "name": "com.vpnlab.agent.EventType",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "fields": [{ "name": "$VALUES" }],
+    "methods": [{ "name": "values", "parameterTypes": [] }]
+  },
+  {
+    "name": "com.vpnlab.agent.Action",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true,
+    "fields": [{ "name": "$VALUES" }],
+    "methods": [{ "name": "values", "parameterTypes": [] }]
+  }
+]

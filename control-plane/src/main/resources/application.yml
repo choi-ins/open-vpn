@@ -7,7 +7,9 @@ spring:
     name: vpn-control
   data:
     mongodb:
-      uri: ${MONGO_URI:mongodb://admin:admin@127.0.0.1:27017/vpnlab?authSource=admin}
+      # 자격증명은 절대 하드코딩하지 않음 — MONGO_URI 환경변수(.env)에서만 주입.
+      # 앱 전용 최소권한 계정(vpnapp, readWrite on vpnlab)을 사용한다.
+      uri: ${MONGO_URI}
       auto-index-creation: true
 
 management:

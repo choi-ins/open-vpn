@@ -16,6 +16,9 @@ data class BlocklistProperties(
     // 와일드카드 변경 시 CoreDNS 자동 재시작 (원본은 수동 docker restart 우회였음 — 자동화)
     val autoRestartCoredns: Boolean = true,
     val corednsContainer: String = "vpn-server",
+    // 재시작 후 클라이언트 격리 iptables 규칙 자동 재적용 (개선 1)
+    // vpn-server 재시작 시 FORWARD wg0→wg0 DROP 규칙이 소실되므로 재삽입
+    val reapplyIsolation: Boolean = true,
 )
 
 data class DiskControlProperties(

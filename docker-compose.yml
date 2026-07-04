@@ -4,17 +4,25 @@ services:
     container_name: vpn-lab-mongo
     restart: unless-stopped
     ports:
+      # 로컬 전용 바인딩 유지 — 외부에서 접근 불가
       - "127.0.0.1:27017:27017"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER:-admin}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS:-admin}
+      # 루트 계정: 관리 전용 (앱은 이 계정을 쓰지 않음)
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER:?MONGO_ROOT_USER required (see .env)}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASS:?MONGO_ROOT_PASS required (see .env)}
       MONGO_INITDB_DATABASE: vpnlab
+      # 앱 전용 계정 정보 — mongo-init.js가 읽어 readWrite 권한 유저 생성
+      MONGO_APP_USER: ${MONGO_APP_USER:?MONGO_APP_USER required (see .env)}
+      MONGO_APP_PASS: ${MONGO_APP_PASS:?MONGO_APP_PASS required (see .env)}
     volumes:
       - mongo-data:/data/db
+      # 최초 기동 시 1회 실행: 앱 전용 유저 생성
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     healthcheck:
-      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand({ ping: 1 }).ok"]
+      # 인증 활성 상태이므로 루트 자격증명으로 ping
+      test: ["CMD-SHELL", "mongosh --quiet -u \"$$MONGO_INITDB_ROOT_USERNAME\" -p \"$$MONGO_INITDB_ROOT_PASSWORD\" --authenticationDatabase admin --eval 'db.runCommand({ping:1}).ok' | grep -q 1"]
       interval: 10s
-      timeout: 3s
+      timeout: 5s
       retries: 5
 
 volumes:
