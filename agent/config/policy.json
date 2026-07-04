@@ -1,0 +1,14 @@
+{
+  "logging" : {
+    "log_level" : "info",
+    "log_path" : "/Users/insuchoe/Desktop/vpn-lab-migrated/agent/logs/disk-events.jsonl"
+  },
+  "mode" : "log-only",
+  "rules" : {
+    "usb_write_block" : {
+      "enabled" : true,
+      "ignored_volumes" : [ "Macintosh HD", "Data", "com.apple.TimeMachine.localsnapshots" ],
+      "watch_paths" : [ "/Volumes" ]
+    }
+  }
+}
