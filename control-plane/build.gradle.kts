@@ -32,6 +32,10 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.9.0")
+
+    // 개선 2: 짧은 TTL 캐시 + single-flight (동시 요청 합치기)
+    implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
 
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test") {

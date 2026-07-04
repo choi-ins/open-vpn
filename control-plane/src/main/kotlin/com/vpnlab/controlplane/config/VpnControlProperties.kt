@@ -8,6 +8,8 @@ data class VpnControlProperties(
     val clientCount: Int = 5,
     val blocklist: BlocklistProperties = BlocklistProperties(),
     val diskControl: DiskControlProperties = DiskControlProperties(),
+    // 개선 2: /clients, /status 캐시 TTL (ms). docker exec 폭주를 흡수하기 위한 짧은 캐시.
+    val cacheTtlMs: Long = 1500,
 )
 
 data class BlocklistProperties(

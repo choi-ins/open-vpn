@@ -23,7 +23,7 @@ management:
 
 vpn-control:
   scripts-dir: ${VPN_SCRIPTS_DIR:/Users/insuchoe/Desktop/vpn-lab/scripts}
-  client-count: 5
+  client-count: ${CLIENT_COUNT:5}
   blocklist:
     hosts-path: ${BLOCKLIST_HOSTS_PATH:/Users/insuchoe/Desktop/vpn-lab/server-data/blocklist/hosts}
     corefile-path: ${BLOCKLIST_COREFILE_PATH:/Users/insuchoe/Desktop/vpn-lab/server-data/coredns/Corefile}
