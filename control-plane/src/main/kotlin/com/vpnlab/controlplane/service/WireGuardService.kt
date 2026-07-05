@@ -29,6 +29,13 @@ class WireGuardService(
     private val runner: CommandRunner,
     private val props: VpnControlProperties,
 ) {
+    companion object {
+        // 배포된 셸 스크립트(connect.sh 등)가 지원하는 최대 클라이언트 번호.
+        // clientCount 설정이 이 값을 초과해도 스크립트는 동작하지 않으므로
+        // 이 범위를 벗어난 n은 400으로 조기 거부한다.
+        const val SCRIPT_MAX_CLIENT = 5
+    }
+
     private val listCache = SuspendCache<String, List<ClientSummary>>(
         Duration.ofMillis(props.cacheTtlMs)
     )
@@ -36,7 +43,7 @@ class WireGuardService(
         Duration.ofMillis(props.cacheTtlMs)
     )
 
-    fun isValidClientId(n: Int): Boolean = n in 1..props.clientCount
+    fun isValidClientId(n: Int): Boolean = n in 1..minOf(props.clientCount, SCRIPT_MAX_CLIENT)
 
     suspend fun connect(n: Int): CommandResult =
         runner.run(listOf("$scriptsDir/connect.sh", n.toString())).also { invalidateCaches(n) }

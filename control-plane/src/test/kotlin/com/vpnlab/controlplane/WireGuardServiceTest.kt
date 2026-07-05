@@ -78,4 +78,35 @@ class WireGuardServiceTest {
                 .containsExactly("client-1", "client-2", "client-3", "client-4", "client-5")
         }
     }
+
+    // ── 개선 6: 경계 버그 ──────────────────────────────────────────────────────
+
+    @Test
+    fun `isValidClientId rejects n above SCRIPT_MAX_CLIENT even when clientCount is higher`() {
+        val highCountProps = VpnControlProperties(scriptsDir = "/tmp/x", clientCount = 10)
+        val service = WireGuardService(mockk(), highCountProps)
+
+        // 스크립트가 지원하는 최대(5)는 허용
+        assertThat(service.isValidClientId(5)).isTrue()
+        // 스크립트 범위를 벗어난 값은 clientCount=10이어도 거부
+        assertThat(service.isValidClientId(6)).isFalse()
+        assertThat(service.isValidClientId(10)).isFalse()
+    }
+
+    @Test
+    fun `isValidClientId rejects n below 1`() {
+        val service = WireGuardService(mockk(), props)
+
+        assertThat(service.isValidClientId(0)).isFalse()
+        assertThat(service.isValidClientId(-1)).isFalse()
+    }
+
+    @Test
+    fun `isValidClientId accepts valid range 1 to SCRIPT_MAX_CLIENT`() {
+        val service = WireGuardService(mockk(), props)
+
+        (1..WireGuardService.SCRIPT_MAX_CLIENT).forEach { n ->
+            assertThat(service.isValidClientId(n)).isTrue()
+        }
+    }
 }

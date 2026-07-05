@@ -1,7 +1,6 @@
 package com.vpnlab.controlplane.api
 
 import com.vpnlab.controlplane.service.ClientSummary
-import com.vpnlab.controlplane.service.CommandResult
 import com.vpnlab.controlplane.service.WireGuardService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -49,7 +48,7 @@ class ClientController(
     private suspend fun validateThen(n: Int, block: suspend () -> ResponseEntity<Any>): ResponseEntity<Any> {
         if (!wireGuard.isValidClientId(n)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                mapOf("error" to "n must be 1..=5", "got" to n)
+                mapOf("error" to "n must be 1..=${WireGuardService.SCRIPT_MAX_CLIENT}", "got" to n)
             )
         }
         return block()
