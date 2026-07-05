@@ -9,3 +9,13 @@ spring:
 vpn-control:
   scripts-dir: /tmp/vpnlab-test-scripts
   client-count: 5
+
+# actuator/health 는 기본적으로 MongoDB 헬스 인디케이터를 집계에 포함한다.
+# 테스트에선 실제 Mongo에 연결하지 않으므로(또는 인증 강화된 로컬 Mongo가
+# 더미 URI를 거부하므로) mongo 헬스가 DOWN이 되어 /actuator/health 가 503을 낸다.
+# 테스트는 "엔드포인트가 노출되고 응답하는가"만 검증하면 되므로 mongo 헬스만 끈다.
+# 프로덕션(main application.yml)은 mongo 헬스 체크를 그대로 유지한다.
+management:
+  health:
+    mongo:
+      enabled: false
