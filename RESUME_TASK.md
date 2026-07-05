@@ -71,8 +71,7 @@
   - `isValidClientId rejects n above SCRIPT_MAX_CLIENT even when clientCount is higher` ✅
   - `isValidClientId rejects n below 1` ✅
   - `isValidClientId accepts valid range 1 to SCRIPT_MAX_CLIENT` ✅
-- control-plane 전체 테스트: **67개 중 66 통과, 1 실패**
-  - 실패: `HealthIntegrationTest.actuator health endpoint is exposed` → 로컬 MongoDB 미실행 시 503 반환 (기존 환경 문제, 내 변경과 무관)
+- control-plane 전체 테스트: **67개 전부 통과** (아래 후속 수정 반영)
 
 **4. 코드 품질 개선** ✅
 - `ClientController`: 미사용 `CommandResult` import 제거
@@ -85,3 +84,13 @@
 - 각 모듈 실행법 (control-plane / agent / admin-ui)
 
 **커밋**: `db2c54e` — `vpn-lab-migrated` 브랜치에 push 완료
+
+### 2026-07-05T09:42 KST — HealthIntegrationTest 실패 후속 수정
+
+앞선 실행이 "환경 문제"로 넘긴 `HealthIntegrationTest.actuator health endpoint is exposed`(503)를
+실제로 진단·수정. 원인은 로컬 MongoDB 미실행이 아니라, 개선 5(Mongo 인증 강화) 이후
+로컬 Mongo가 무인증 더미 테스트 URI를 거부 → actuator 집계에 포함된 mongo 헬스가 DOWN → 503.
+- 조치: 테스트 프로파일(`src/test/resources/application.yml`)에서만
+  `management.health.mongo.enabled=false`. 프로덕션 mongo 헬스 체크는 유지.
+- 결과: control-plane **67/67 전부 통과** 확인 (실제 gradle test 출력).
+- 커밋: `e2b3fda` — push 완료.
