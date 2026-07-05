@@ -51,4 +51,37 @@
 
 ## 진행 로그 (에이전트가 append)
 
-- (여기에 각 실행 결과를 타임스탬프와 함께 추가)
+### 2026-07-05T18:43 KST — 자동 재개 실행 결과
+
+**1. agent 테스트**
+- `gradle test --rerun-tasks` (JAVA_HOME=/opt/homebrew/opt/openjdk@21)
+- 결과: **18/18 통과** (BuildEvent 5, EventSerde 3, Logger 2, Policy 4, ReadonlyGuard 4)
+- 환경: gradlew 없어 시스템 gradle 사용 (`/opt/homebrew/bin/gradle`)
+
+**2. admin-ui 빌드 + 테스트**
+- `npm install && npm run build`: **성공** (Vite 969ms, dist/ 생성)
+- `npm test` (vitest run): **3/3 통과** (StatusCard 2, Sidebar 1)
+- 취약점 7개(npm audit) — breaking changes 포함이라 `npm audit fix --force`는 미실행
+
+**3. 개선 6번 경계 버그 수정** ✅
+- `WireGuardService.SCRIPT_MAX_CLIENT = 5` 상수 도입
+- `isValidClientId(n)` → `n in 1..minOf(props.clientCount, SCRIPT_MAX_CLIENT)`
+- `ClientController` 에러 메시지를 상수 참조로 변경
+- `WireGuardServiceTest` 경계 테스트 3개 추가:
+  - `isValidClientId rejects n above SCRIPT_MAX_CLIENT even when clientCount is higher` ✅
+  - `isValidClientId rejects n below 1` ✅
+  - `isValidClientId accepts valid range 1 to SCRIPT_MAX_CLIENT` ✅
+- control-plane 전체 테스트: **67개 중 66 통과, 1 실패**
+  - 실패: `HealthIntegrationTest.actuator health endpoint is exposed` → 로컬 MongoDB 미실행 시 503 반환 (기존 환경 문제, 내 변경과 무관)
+
+**4. 코드 품질 개선** ✅
+- `ClientController`: 미사용 `CommandResult` import 제거
+- `DiskControlController`: 미사용 `JsonNode` import 제거
+- 컴파일 (`gradle compileKotlin`) 경고 없이 통과
+
+**5. README 정비** ✅
+- 텍스트 아키텍처 다이어그램 추가
+- API 14개 목록 (VPN 6개, 블록리스트 4개, 디스크 4개) 문서화
+- 각 모듈 실행법 (control-plane / agent / admin-ui)
+
+**커밋**: `db2c54e` — `vpn-lab-migrated` 브랜치에 push 완료
